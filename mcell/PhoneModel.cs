@@ -20,5 +20,10 @@ namespace mcell
 
         public string FullDetails { get { return $"{imei}  {phoneName}"; } }
 
+        public override string ToString()
+        {
+            return phoneName;
+        }
+
     }
 }

@@ -78,7 +78,7 @@
             // 
             // buttonImeiEkle
             // 
-            this.buttonImeiEkle.Location = new System.Drawing.Point(679, 215);
+            this.buttonImeiEkle.Location = new System.Drawing.Point(679, 187);
             this.buttonImeiEkle.Name = "buttonImeiEkle";
             this.buttonImeiEkle.Size = new System.Drawing.Size(101, 37);
             this.buttonImeiEkle.TabIndex = 5;
@@ -109,7 +109,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(456, 172);
+            this.label4.Location = new System.Drawing.Point(456, 144);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(141, 25);
             this.label4.TabIndex = 8;
@@ -117,7 +117,7 @@
             // 
             // textBoxTelModelEkle
             // 
-            this.textBoxTelModelEkle.Location = new System.Drawing.Point(622, 168);
+            this.textBoxTelModelEkle.Location = new System.Drawing.Point(622, 140);
             this.textBoxTelModelEkle.Name = "textBoxTelModelEkle";
             this.textBoxTelModelEkle.Size = new System.Drawing.Size(207, 29);
             this.textBoxTelModelEkle.TabIndex = 9;
@@ -148,6 +148,7 @@
             this.buttonSil.Text = "Sil";
             this.buttonSil.UseMnemonic = false;
             this.buttonSil.UseVisualStyleBackColor = true;
+            this.buttonSil.Click += new System.EventHandler(this.buttonSil_Click);
             // 
             // Form1
             // 
@@ -167,6 +168,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listPhoneListBox);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();

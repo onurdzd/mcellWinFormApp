@@ -13,7 +13,7 @@ namespace mcell
 {
     public partial class Form1 : Form
     {
-        List<PhoneModel>phone=new List<PhoneModel>();
+        List<PhoneModel>phoneList=new List<PhoneModel>();
         public Form1()
         {
             InitializeComponent();
@@ -22,15 +22,9 @@ namespace mcell
 
         private void LoadPhoneList()
         {
-            WireUpPhoneList();
-        }
-
-        private void WireUpPhoneList()
-        {
             listPhoneListBox.DataSource = null;
-            listPhoneListBox.DataSource = phone;
+            listPhoneListBox.DataSource = phoneList;
             listPhoneListBox.DisplayMember = "FullDetails";
-
         }
 
         private void buttonImeiEkle_Click(object sender, EventArgs e)
@@ -43,7 +37,7 @@ namespace mcell
             else
             {
                 PhoneModel p = new PhoneModel(Convert.ToInt32(textBoxImeiEkle.Text), textBoxTelModelEkle.Text);
-                phone.Add(p);
+                    phoneList.Add(p);
                 LoadPhoneList();
                 textBoxImeiEkle.Text = "";
                 textBoxTelModelEkle.Text = "";
@@ -64,7 +58,7 @@ namespace mcell
             string searchText = textBoxImeiAra.Text;
             List<PhoneModel> filteredData = new List<PhoneModel>();
 
-            foreach (var item in phone)
+            foreach (var item in phoneList)
             {
                 if (item.imei.ToString().Contains(searchText) || item.phoneName.ToString().Contains(searchText))
                 {
@@ -77,6 +71,17 @@ namespace mcell
 
             if (textBoxImeiAra.Text == "")
             {
+                LoadPhoneList();
+            }
+        }
+
+        private void buttonSil_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = listPhoneListBox.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                phoneList.RemoveAt(selectedIndex);
                 LoadPhoneList();
             }
         }
