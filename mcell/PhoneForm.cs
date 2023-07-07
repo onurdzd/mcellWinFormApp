@@ -11,20 +11,26 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace mcell
 {
-    public partial class Form1 : Form
+    public partial class PhoneForm : Form
     {
         List<PhoneModel>phoneList=new List<PhoneModel>();
-        public Form1()
+        public PhoneForm()
         {
             InitializeComponent();
             LoadPhoneList();
         }
 
         private void LoadPhoneList()
-        {
+        {   
             listPhoneListBox.DataSource = null;
+            phoneList = SqliteDataAccess.LoadPhones();
             listPhoneListBox.DataSource = phoneList;
             listPhoneListBox.DisplayMember = "FullDetails";
+        }
+
+        private void buttonYenile_Click(object sender, EventArgs e)
+        {
+            LoadPhoneList();
         }
 
         private void buttonImeiEkle_Click(object sender, EventArgs e)
@@ -36,21 +42,18 @@ namespace mcell
             }
             else
             {
-                PhoneModel p = new PhoneModel(Convert.ToInt32(textBoxImeiEkle.Text), textBoxTelModelEkle.Text);
-                    phoneList.Add(p);
-                LoadPhoneList();
-                textBoxImeiEkle.Text = "";
-                textBoxTelModelEkle.Text = "";
+                PhoneModel p = new PhoneModel(Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,textBoxNot.Text);
+                    SqliteDataAccess.SavePhone(p);
+                    MessageBox.Show($"{p} listeye eklendi!");
+                    LoadPhoneList();
+                    textBoxImeiEkle.Text = "";
+                    textBoxTelModelEkle.Text = "";
             }
             }catch {
                 MessageBox.Show("Imei no veya Telefon Modeli Hatalı Formatta Girildi");
             }
         }
 
-        private void buttonYenile_Click(object sender, EventArgs e)
-        {
-            LoadPhoneList();
-        }
 
         private void textBoxImeiAra_TextChanged(object sender, EventArgs e)
         {
@@ -60,7 +63,7 @@ namespace mcell
 
             foreach (var item in phoneList)
             {
-                if (item.imei.ToString().Contains(searchText) || item.phoneName.ToString().Contains(searchText))
+                if (item.imei.ToString().Contains(searchText) || item.phoneModel.ToString().Contains(searchText))
                 {
                     filteredData.Add(item);
                 }
@@ -84,6 +87,11 @@ namespace mcell
                 phoneList.RemoveAt(selectedIndex);
                 LoadPhoneList();
             }
+        }
+
+        private void PhoneForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

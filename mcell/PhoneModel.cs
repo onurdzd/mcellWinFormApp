@@ -6,23 +6,29 @@ using System.Threading.Tasks;
 
 namespace mcell
 {
-    internal class PhoneModel
+    public class PhoneModel
     {
+        public Int64 id { get; set; }
+        public Int64 imei { get; set; }
+        public string phoneModel { get; set; }
+        public DateTime baslangicTarihi { get; set; }
+        public DateTime sonKullanimTarihi { get; set; }
+        public Int64 kalanGunSayisi { get; set; }
+        public Int64 kalanKullanimHakki { get; set; }
+        public Int64 kullanilanHak { get; set; }
+        public string notlar { get; set; }
 
-        public int imei { get; set; }
-        public string phoneName { get; set; }
-
-        public PhoneModel(int imei, string phoneName) {
-
+        public PhoneModel( Int64 imei, string phoneModel,string notlar) {
             this.imei = imei;
-            this.phoneName = phoneName;
+            this.phoneModel = phoneModel;
+            this.notlar = notlar;
         }
 
-        public string FullDetails { get { return $"{imei}  {phoneName}"; } }
+        public string FullDetails { get { return $"{id}-Imei:{imei} Model:{phoneModel} Başlangıç Tarihi:{baslangicTarihi} Son Kullanım Tarihi:{sonKullanimTarihi}  Kalan Kullanım Hakkı:{kalanKullanimHakki} Kullanılan Hak:{kullanilanHak}  Not:{notlar}"; } }
 
         public override string ToString()
         {
-            return phoneName;
+            return $"{id} {imei} {phoneModel} {baslangicTarihi} {sonKullanimTarihi}{kalanGunSayisi} {kalanKullanimHakki} {kullanilanHak} {notlar}";
         }
 
     }
