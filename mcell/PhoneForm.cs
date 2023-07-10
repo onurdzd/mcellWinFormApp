@@ -26,6 +26,7 @@ namespace mcell
             phoneList = SqliteDataAccess.LoadPhones();
             listPhoneListBox.DataSource = phoneList;
             listPhoneListBox.DisplayMember = "FullDetails";
+            labelKayitAdedi.Text = Convert.ToString(phoneList.Count);
         }
 
         private void buttonYenile_Click(object sender, EventArgs e)
@@ -36,15 +37,15 @@ namespace mcell
         private void buttonImeiEkle_Click(object sender, EventArgs e)
         {
             try { 
-            if (string.IsNullOrEmpty(textBoxImeiEkle.Text) || string.IsNullOrEmpty(textBoxTelModelEkle.Text))
+            if (string.IsNullOrEmpty(textBoxImeiEkle.Text) || (textBoxImeiEkle.Text).Length!=15 || string.IsNullOrEmpty(textBoxTelModelEkle.Text))
             {
-                MessageBox.Show("Imei no veya Telefon Modeli Eksik girildi");
+                MessageBox.Show("Imei no veya Telefon Modeli Yanlış girildi");
             }
             else
             {
-                PhoneModel p = new PhoneModel(Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,textBoxNot.Text);
+                PhoneModel p = new PhoneModel(0,Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
-                    MessageBox.Show($"{p} listeye eklendi!");
+                    MessageBox.Show($"{p.imei} listeye eklendi!");
                     LoadPhoneList();
                     textBoxImeiEkle.Text = "";
                     textBoxTelModelEkle.Text = "";
@@ -53,7 +54,6 @@ namespace mcell
                 MessageBox.Show("Imei no veya Telefon Modeli Hatalı Formatta Girildi");
             }
         }
-
 
         private void textBoxImeiAra_TextChanged(object sender, EventArgs e)
         {
@@ -80,13 +80,10 @@ namespace mcell
 
         private void buttonSil_Click(object sender, EventArgs e)
         {
-            int selectedIndex = listPhoneListBox.SelectedIndex;
-
-            if (selectedIndex >= 0)
-            {
-                phoneList.RemoveAt(selectedIndex);
-                LoadPhoneList();
-            }
+            PhoneModel p = (PhoneModel)listPhoneListBox.SelectedValue;
+            SqliteDataAccess.DeletePhone(p);
+            MessageBox.Show($"{p.id} listeden silindi! ");
+            LoadPhoneList();
         }
 
         private void PhoneForm_Load(object sender, EventArgs e)

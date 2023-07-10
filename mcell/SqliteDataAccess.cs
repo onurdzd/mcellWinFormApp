@@ -16,7 +16,7 @@ namespace mcell
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<PhoneModel>("SELECT imei, phoneModel, notlar FROM allData", new DynamicParameters());
+                var output = cnn.Query<PhoneModel>("SELECT id,imei, phoneModel, notlar FROM allData", new DynamicParameters());
         return output.ToList();
             };
         }
@@ -26,6 +26,14 @@ namespace mcell
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 cnn.Execute("insert into allData (imei,phoneModel) values (@imei,@phoneModel)", phone);
+            }
+        }
+
+        public static void DeletePhone(PhoneModel phone)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("DELETE FROM allData WHERE imei = @imei", phone);
             }
         }
 
