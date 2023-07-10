@@ -45,6 +45,8 @@
             this.textBoxNot = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.labelKayitAdedi = new System.Windows.Forms.Label();
+            this.dataGridViewPhoneList = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).BeginInit();
             this.SuspendLayout();
             // 
             // listPhoneListBox
@@ -52,7 +54,7 @@
             this.listPhoneListBox.FormattingEnabled = true;
             this.listPhoneListBox.HorizontalScrollbar = true;
             this.listPhoneListBox.ItemHeight = 24;
-            this.listPhoneListBox.Location = new System.Drawing.Point(27, 152);
+            this.listPhoneListBox.Location = new System.Drawing.Point(27, 148);
             this.listPhoneListBox.Name = "listPhoneListBox";
             this.listPhoneListBox.ScrollAlwaysVisible = true;
             this.listPhoneListBox.Size = new System.Drawing.Size(1884, 772);
@@ -193,11 +195,25 @@
             this.labelKayitAdedi.TabIndex = 17;
             this.labelKayitAdedi.Text = "0";
             // 
+            // dataGridViewPhoneList
+            // 
+            this.dataGridViewPhoneList.AllowUserToOrderColumns = true;
+            this.dataGridViewPhoneList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPhoneList.Location = new System.Drawing.Point(52, 376);
+            this.dataGridViewPhoneList.Name = "dataGridViewPhoneList";
+            this.dataGridViewPhoneList.RowHeadersWidth = 72;
+            this.dataGridViewPhoneList.RowTemplate.Height = 31;
+            this.dataGridViewPhoneList.Size = new System.Drawing.Size(1837, 535);
+            this.dataGridViewPhoneList.TabIndex = 18;
+            this.dataGridViewPhoneList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPhoneList_CellClick);
+            this.dataGridViewPhoneList.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPhoneList_CellValueChanged);
+            // 
             // PhoneForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2465, 1177);
+            this.Controls.Add(this.dataGridViewPhoneList);
             this.Controls.Add(this.labelKayitAdedi);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBoxNot);
@@ -218,7 +234,7 @@
             this.Name = "PhoneForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "mcellImeiTakipForm";
-            this.Load += new System.EventHandler(this.PhoneForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,6 +258,7 @@
         private System.Windows.Forms.TextBox textBoxNot;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label labelKayitAdedi;
+        private System.Windows.Forms.DataGridView dataGridViewPhoneList;
     }
 }
 

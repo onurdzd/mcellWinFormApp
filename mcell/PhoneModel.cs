@@ -26,6 +26,20 @@ namespace mcell
             this.notlar = notlar;
         }
 
+
+        public PhoneModel(Int64 id, Int64 imei, string phoneModel, DateTime baslangicTarihi, DateTime sonKullanimTarihi, Int64 kalanGunSayisi, Int64 kalanKullanimHakki, Int64 kullanilanHak, string notlar)
+        {
+            this.id = id;
+            this.imei = imei;
+            this.phoneModel = phoneModel;
+            this.baslangicTarihi = baslangicTarihi;
+            this.sonKullanimTarihi = sonKullanimTarihi;
+            this.kalanGunSayisi = kalanGunSayisi;
+            this.kalanKullanimHakki = kalanKullanimHakki;
+            this.kullanilanHak = kullanilanHak;
+            this.notlar = notlar;
+        }
+
         public string FullDetails { get {
                 long ilkBesRakam = imei / 10000000000;
                 long sonBesRakam = imei % 100000;

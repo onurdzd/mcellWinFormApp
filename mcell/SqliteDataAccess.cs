@@ -33,13 +33,32 @@ namespace mcell
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("DELETE FROM allData WHERE imei = @imei", phone);
+                cnn.Execute("DELETE FROM allData WHERE id = @id", phone);
             }
         }
 
         private static string LoadConnectionString(string id="Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
+        }
+
+        /////
+        ///GRID AREA
+        ///
+        public static List<PhoneModel> LoadGridPhones()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<PhoneModel>("SELECT * FROM allData", new DynamicParameters());
+                return output.ToList();
+            };
+        }
+        public static void SavePhoneGrid(PhoneModel phone)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("insert into allData (id,imei,phoneModel,baslangicTarihi,sonKullanımTarihi,kalanGunSayisi,kalanKullanimHakki,kullanilanHak,notlar) values (@id,@imei,@phoneModel,@baslangicTarihi,@sonKullanımTarihi,@kalanGunSayisi,@kalanKullanimHakki,@kullanilanHak,@notlar)", phone);
+            }
         }
     }
 }
