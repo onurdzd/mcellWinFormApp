@@ -36,15 +36,20 @@ namespace mcell
                 cnn.Execute("DELETE FROM allData WHERE id = @id", phone);
             }
         }
+        public static void ResetDb()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("DELETE FROM allData");
+                cnn.Execute("delete from sqlite_sequence where name='allData';");
+            }
+        }
 
         private static string LoadConnectionString(string id="Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
-        /////
-        ///GRID AREA
-        ///
         public static List<PhoneModel> LoadGridPhones()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))

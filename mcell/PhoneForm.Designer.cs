@@ -45,6 +45,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.labelKayitAdedi = new System.Windows.Forms.Label();
             this.dataGridViewPhoneList = new System.Windows.Forms.DataGridView();
+            this.buttonSifirla = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -191,16 +192,28 @@
             this.dataGridViewPhoneList.Name = "dataGridViewPhoneList";
             this.dataGridViewPhoneList.RowHeadersWidth = 72;
             this.dataGridViewPhoneList.RowTemplate.Height = 31;
-            this.dataGridViewPhoneList.Size = new System.Drawing.Size(1819, 753);
+            this.dataGridViewPhoneList.Size = new System.Drawing.Size(1786, 753);
             this.dataGridViewPhoneList.TabIndex = 18;
             this.dataGridViewPhoneList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPhoneList_CellClick);
             this.dataGridViewPhoneList.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPhoneList_CellValueChanged);
+            // 
+            // buttonSifirla
+            // 
+            this.buttonSifirla.Location = new System.Drawing.Point(1198, 958);
+            this.buttonSifirla.Name = "buttonSifirla";
+            this.buttonSifirla.Size = new System.Drawing.Size(100, 51);
+            this.buttonSifirla.TabIndex = 19;
+            this.buttonSifirla.Text = "SIFIRLA";
+            this.buttonSifirla.UseMnemonic = false;
+            this.buttonSifirla.UseVisualStyleBackColor = true;
+            this.buttonSifirla.Click += new System.EventHandler(this.buttonSifirla_Click);
             // 
             // PhoneForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2465, 1177);
+            this.Controls.Add(this.buttonSifirla);
             this.Controls.Add(this.dataGridViewPhoneList);
             this.Controls.Add(this.labelKayitAdedi);
             this.Controls.Add(this.label6);
@@ -220,7 +233,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PhoneForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "mcellImeiTakipForm";
+            this.Text = "Mcell Imei Takip";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -244,6 +257,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label labelKayitAdedi;
         private System.Windows.Forms.DataGridView dataGridViewPhoneList;
+        private System.Windows.Forms.Button buttonSifirla;
     }
 }
 

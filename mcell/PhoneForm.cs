@@ -20,6 +20,12 @@ namespace mcell
             InitializeComponent();
             LoadPhoneGridList();
         }
+        private void LoadPhoneGridList()
+        {
+            phoneGridList = SqliteDataAccess.LoadGridPhones();
+            dataGridViewPhoneList.DataSource = phoneGridList;
+            labelKayitAdedi.Text = Convert.ToString(phoneGridList.Count);
+        }
 
         private void buttonYenile_Click(object sender, EventArgs e)
         {
@@ -35,7 +41,7 @@ namespace mcell
             }
             else
             {
-                PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text, DateTime.Now, DateTime.Now.AddDays(365), 365, 10, 0, textBoxNot.Text);
+                PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text, DateTime.Now, DateTime.Now.AddDays(365), (DateTime.Now - DateTime.Now.AddDays(365)).Ticks, 10, 0, textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
                     MessageBox.Show($"{p.imei} listeye eklendi!");
                     LoadPhoneGridList();
@@ -89,18 +95,7 @@ namespace mcell
             }
 
         }
-
-        /// 
-        /// //////GRID AREA
-        /// 
-
-        private void LoadPhoneGridList()
-        {
-            phoneGridList = SqliteDataAccess.LoadGridPhones();
-            dataGridViewPhoneList.DataSource = phoneGridList;
-            labelKayitAdedi.Text = Convert.ToString(phoneGridList.Count);
-        }
-
+          
         private void dataGridViewPhoneList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
            /* DataGridView dataGridView = (DataGridView)sender;
@@ -120,6 +115,20 @@ namespace mcell
             {
                 DataGridViewRow selectedRow = dataGridView.Rows[e.RowIndex];
                 selectedRowId = Convert.ToInt32(selectedRow.Cells[0].Value);
+            }
+        }
+
+        private void buttonSifirla_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Veritabanını sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz!", "Sıfırlama Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                // Veritabanı sıfırlama işlemini gerçekleştirin
+                SqliteDataAccess.ResetDb();
+
+                MessageBox.Show("Veritabanı sıfırlama işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                LoadPhoneGridList();
             }
         }
     }
