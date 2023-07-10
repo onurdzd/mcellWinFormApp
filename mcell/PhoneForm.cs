@@ -13,28 +13,16 @@ namespace mcell
 {
     public partial class PhoneForm : Form
     {
-        List<PhoneModel>phoneList=new List<PhoneModel>();
         List<PhoneModel>phoneGridList=new List<PhoneModel>();
         int selectedRowId = 0;
         public PhoneForm()
         {
             InitializeComponent();
-            LoadPhoneList();
             LoadPhoneGridList();
-        }
-
-        private void LoadPhoneList()
-        {   
-            listPhoneListBox.DataSource = null;
-            phoneList = SqliteDataAccess.LoadPhones();
-            listPhoneListBox.DataSource = phoneList;
-            listPhoneListBox.DisplayMember = "FullDetails";
-            labelKayitAdedi.Text = Convert.ToString(phoneList.Count);
         }
 
         private void buttonYenile_Click(object sender, EventArgs e)
         {
-            LoadPhoneList();
             LoadPhoneGridList();
         }
 
@@ -50,7 +38,6 @@ namespace mcell
                 PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text, DateTime.Now, DateTime.Now.AddDays(365), 365, 10, 0, textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
                     MessageBox.Show($"{p.imei} listeye eklendi!");
-                    LoadPhoneList();
                     LoadPhoneGridList();
                     textBoxImeiEkle.Text = "";
                     textBoxTelModelEkle.Text = "";
@@ -65,21 +52,18 @@ namespace mcell
             string searchText = textBoxImeiAra.Text;
             List<PhoneModel> filteredData = new List<PhoneModel>();
 
-            foreach (var item in phoneList)
+            foreach (var item in phoneGridList)
             {
                 if (item.imei.ToString().Contains(searchText) || item.phoneModel.ToString().Contains(searchText))
                 {
                     filteredData.Add(item);
                 }
             }
-
-            listPhoneListBox.DataSource = filteredData;
-            listPhoneListBox.DisplayMember = "FullDetails";
+          
             dataGridViewPhoneList.DataSource = filteredData;
 
             if (textBoxImeiAra.Text == "")
             {
-                LoadPhoneList();
                 LoadPhoneGridList();
             }
         }
@@ -92,11 +76,6 @@ namespace mcell
                 DialogResult result = MessageBox.Show("Seçilen satırı silmek istediğinizden emin misiniz?", "Silme Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    /*PhoneModel p = (PhoneModel)listPhoneListBox.SelectedValue;
-                    SqliteDataAccess.DeletePhone(p);
-                    MessageBox.Show($"{p.imei} imei nolu telefon listeden silindi! ");
-                    LoadPhoneList();*/
-
                     PhoneModel pgrid = phoneGridList.FirstOrDefault(x => x.id == selectedRowId);
                     SqliteDataAccess.DeletePhone(pgrid);
                     LoadPhoneGridList();
@@ -119,7 +98,7 @@ namespace mcell
         {
             phoneGridList = SqliteDataAccess.LoadGridPhones();
             dataGridViewPhoneList.DataSource = phoneGridList;
-            labelKayitAdedi.Text = Convert.ToString(phoneList.Count);
+            labelKayitAdedi.Text = Convert.ToString(phoneGridList.Count);
         }
 
         private void dataGridViewPhoneList_CellValueChanged(object sender, DataGridViewCellEventArgs e)

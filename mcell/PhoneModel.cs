@@ -40,13 +40,6 @@ namespace mcell
             this.notlar = notlar;
         }
 
-        public string FullDetails { get {
-                long ilkBesRakam = imei / 10000000000;
-                long sonBesRakam = imei % 100000;
-                string ortaBesRakam = "*****";
-                string gizliSayi = ilkBesRakam + ortaBesRakam + sonBesRakam;
-                return $"{id}-Imei:{gizliSayi} Model:{phoneModel} Başlangıç Tarihi:{baslangicTarihi} Son Kullanım Tarihi:{sonKullanimTarihi}  Kalan Kullanım Hakkı:{kalanKullanimHakki} Kullanılan Hak:{kullanilanHak}  Not:{notlar}"; } }
-
         public override string ToString()
         {
             return $"{id} {imei} {phoneModel} {baslangicTarihi} {sonKullanimTarihi}{kalanGunSayisi} {kalanKullanimHakki} {kullanilanHak} {notlar}";
