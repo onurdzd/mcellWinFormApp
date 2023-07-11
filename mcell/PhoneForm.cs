@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace mcell
-{
+{ //kullanım hakkı eklenecek,cell bazlı edit eklenecek,kalan gün sayisi güncellenmiyor 
     public partial class PhoneForm : Form
     {
         List<PhoneModel>phoneGridList=new List<PhoneModel>();
@@ -34,21 +34,55 @@ namespace mcell
 
         private void buttonImeiEkle_Click(object sender, EventArgs e)
         {
-            try { 
-            if (string.IsNullOrEmpty(textBoxImeiEkle.Text) || (textBoxImeiEkle.Text).Length!=15 || string.IsNullOrEmpty(textBoxTelModelEkle.Text))
+            try
             {
-                MessageBox.Show("Imei no veya Telefon Modeli Yanlış girildi");
-            }
-            else
-            {
-                PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text, DateTime.Now, DateTime.Now.AddDays(365), (DateTime.Now - DateTime.Now.AddDays(365)).Ticks, 10, 0, textBoxNot.Text);
+                PhoneModel foundPhone = phoneGridList.Find(phone => phone.imei == Convert.ToInt64(textBoxImeiEkle.Text));
+
+                if (string.IsNullOrEmpty(textBoxImeiEkle.Text) || string.IsNullOrEmpty(textBoxTelModelEkle.Text))
+                {
+                    MessageBox.Show("Imei no veya Telefon Modeli eksik girildi");
+                }
+                else if ((textBoxImeiEkle.Text).Length != 15)
+                {
+                    MessageBox.Show("Imei no 15 karakterden oluşmalıdır!");
+                }
+                else if (foundPhone!=null)
+                {
+                    MessageBox.Show("Imei listede buluyor. Farklı imei girin!");
+                }
+                else
+                {
+                    int kullanimSuresi;
+                    int kullanimHakki;
+
+                    if (string.IsNullOrEmpty(textBoxKullanimSuresi.Text))
+                    {
+                        kullanimSuresi = 365;
+                    }
+                    else
+                    {
+                        kullanimSuresi = Convert.ToInt32(textBoxKullanimSuresi.Text);
+                    }
+                    if (string.IsNullOrEmpty(textBoxKullanimHakki.Text))
+                    {
+                        kullanimHakki = 10;
+                    }
+                    else
+                    {
+                        kullanimHakki = Convert.ToInt32(textBoxKullanimHakki.Text);
+                    }
+
+
+                    PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi, kullanimHakki, 0, textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
                     MessageBox.Show($"{p.imei} listeye eklendi!");
                     LoadPhoneGridList();
                     textBoxImeiEkle.Text = "";
                     textBoxTelModelEkle.Text = "";
                 }
-            }catch {
+            }
+            catch
+            {
                 MessageBox.Show("Imei no veya Telefon Modeli Hatalı Formatta Girildi");
             }
         }

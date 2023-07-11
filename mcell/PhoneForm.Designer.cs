@@ -46,6 +46,11 @@
             this.labelKayitAdedi = new System.Windows.Forms.Label();
             this.dataGridViewPhoneList = new System.Windows.Forms.DataGridView();
             this.buttonSifirla = new System.Windows.Forms.Button();
+            this.textBoxKullanimSuresi = new System.Windows.Forms.TextBox();
+            this.textBoxKullanimHakki = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,7 +83,7 @@
             // 
             // buttonImeiEkle
             // 
-            this.buttonImeiEkle.Location = new System.Drawing.Point(2221, 231);
+            this.buttonImeiEkle.Location = new System.Drawing.Point(2221, 352);
             this.buttonImeiEkle.Name = "buttonImeiEkle";
             this.buttonImeiEkle.Size = new System.Drawing.Size(101, 43);
             this.buttonImeiEkle.TabIndex = 5;
@@ -100,20 +105,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2042, 81);
+            this.label3.Location = new System.Drawing.Point(2013, 81);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 25);
+            this.label3.Size = new System.Drawing.Size(107, 25);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Imei No";
+            this.label3.Text = "Imei No ***";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1979, 132);
+            this.label4.Location = new System.Drawing.Point(1950, 132);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 25);
+            this.label4.Size = new System.Drawing.Size(170, 25);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Telefon Modeli";
+            this.label4.Text = "Telefon Modeli ***";
             // 
             // textBoxTelModelEkle
             // 
@@ -153,7 +158,7 @@
             // labelNot
             // 
             this.labelNot.AutoSize = true;
-            this.labelNot.Location = new System.Drawing.Point(2078, 185);
+            this.labelNot.Location = new System.Drawing.Point(2078, 297);
             this.labelNot.Name = "labelNot";
             this.labelNot.Size = new System.Drawing.Size(42, 25);
             this.labelNot.TabIndex = 14;
@@ -161,7 +166,7 @@
             // 
             // textBoxNot
             // 
-            this.textBoxNot.Location = new System.Drawing.Point(2141, 185);
+            this.textBoxNot.Location = new System.Drawing.Point(2141, 297);
             this.textBoxNot.Name = "textBoxNot";
             this.textBoxNot.Size = new System.Drawing.Size(260, 29);
             this.textBoxNot.TabIndex = 15;
@@ -208,11 +213,57 @@
             this.buttonSifirla.UseVisualStyleBackColor = true;
             this.buttonSifirla.Click += new System.EventHandler(this.buttonSifirla_Click);
             // 
+            // textBoxKullanimSuresi
+            // 
+            this.textBoxKullanimSuresi.Location = new System.Drawing.Point(2141, 182);
+            this.textBoxKullanimSuresi.Name = "textBoxKullanimSuresi";
+            this.textBoxKullanimSuresi.Size = new System.Drawing.Size(260, 29);
+            this.textBoxKullanimSuresi.TabIndex = 20;
+            // 
+            // textBoxKullanimHakki
+            // 
+            this.textBoxKullanimHakki.Location = new System.Drawing.Point(2141, 241);
+            this.textBoxKullanimHakki.Name = "textBoxKullanimHakki";
+            this.textBoxKullanimHakki.Size = new System.Drawing.Size(260, 29);
+            this.textBoxKullanimHakki.TabIndex = 21;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1979, 186);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(148, 25);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Kullanım Süresi";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1979, 241);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(141, 25);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Kullanım Hakkı";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1957, 352);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(163, 25);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "*** (Zorunlu alan)";
+            // 
             // PhoneForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2465, 1177);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.textBoxKullanimHakki);
+            this.Controls.Add(this.textBoxKullanimSuresi);
             this.Controls.Add(this.buttonSifirla);
             this.Controls.Add(this.dataGridViewPhoneList);
             this.Controls.Add(this.labelKayitAdedi);
@@ -258,6 +309,11 @@
         private System.Windows.Forms.Label labelKayitAdedi;
         private System.Windows.Forms.DataGridView dataGridViewPhoneList;
         private System.Windows.Forms.Button buttonSifirla;
+        private System.Windows.Forms.TextBox textBoxKullanimSuresi;
+        private System.Windows.Forms.TextBox textBoxKullanimHakki;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }
 

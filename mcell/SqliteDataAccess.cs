@@ -25,7 +25,7 @@ namespace mcell
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("insert into allData (imei,phoneModel) values (@imei,@phoneModel)", phone);
+                cnn.Execute("insert into allData (imei,phoneModel,baslangicTarihi,sonKullanimTarihi,kalanGunSayisi,kalanKullanimHakki,kullanilanHak,notlar) values (@imei,@phoneModel,@baslangicTarihi,@sonKullanimTarihi,@kalanGunSayisi,@kalanKullanimHakki,@kullanilanHak,@notlar)", phone);
             }
         }
 
