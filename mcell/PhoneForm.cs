@@ -29,8 +29,10 @@ namespace mcell
             }
         }
 
+
         private void ApplyCellStyles()
         {
+
             foreach (DataGridViewRow row in dataGridViewPhoneList.Rows)
             {
                 string targetColumn = "kullanimHakki"; // Güncellenecek hedef sütun adı
@@ -160,8 +162,7 @@ namespace mcell
                 MessageBox.Show("Imei no veya Telefon Modeli Hatalı Formatta Girildi");
             }
         }
-
-        private void textBoxImeiAra_TextChanged(object sender, EventArgs e)
+        private void textBoxImeiAra_TextChanged_1(object sender, EventArgs e)
         {
             string searchText = textBoxImeiAra.Text;
             List<PhoneModel> filteredData = new List<PhoneModel>();
@@ -175,6 +176,11 @@ namespace mcell
             }
           
             dataGridViewPhoneList.DataSource = filteredData;
+            labelKayitAdedi.Text = Convert.ToString(filteredData.Count);
+            if (filteredData != null)
+            {
+             ApplyCellStyles();
+            }
 
             if (textBoxImeiAra.Text == "")
             {
@@ -267,5 +273,5 @@ namespace mcell
             ApplyCellStyles();
         }
 
-    }
+     }
 }
