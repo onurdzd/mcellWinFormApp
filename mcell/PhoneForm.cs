@@ -20,10 +20,53 @@ namespace mcell
             InitializeComponent();
             LoadPhoneGridList();
         }
+
+        private void ApplyCellStyles()
+        {
+            foreach (DataGridViewRow row in dataGridViewPhoneList.Rows)
+            {
+                // Sütun adlarını kullanarak hücre değerlerini alın
+                string kalanGunSayisiStr = row.Cells["kalanGunSayisi"].Value.ToString();
+                string kalanKullanimHakkiStr = row.Cells["kalanKullanimHakki"].Value.ToString();
+
+                // Hücre değerlerini uygun türe dönüştürün
+                int kalanGunSayisi = int.Parse(kalanGunSayisiStr);
+                int kalanKullanimHakki = int.Parse(kalanKullanimHakkiStr);
+
+                // Hücreleri renklendirme
+                DataGridViewCellStyle cellStyle = row.Cells["kalanGunSayisi"].Style;
+                if (kalanGunSayisi < 5)
+                {
+                    cellStyle.BackColor = Color.Red;
+                }
+                else if (kalanGunSayisi < 10)
+                {
+                    cellStyle.BackColor = Color.Yellow;
+                }
+
+                cellStyle = row.Cells["kalanKullanimHakki"].Style;
+                if (kalanKullanimHakki <= 0)
+                {
+                    cellStyle.BackColor = Color.Gray;
+                }
+            }
+        }
         private void LoadPhoneGridList()
         {
             phoneGridList = SqliteDataAccess.LoadGridPhones();
+            foreach (PhoneModel phone in phoneGridList)
+            {
+                DateTime baslangicTarihi = DateTime.Now;
+                DateTime sonKullanimTarihi = phone.sonKullanimTarihi;
+                TimeSpan gunFarki = sonKullanimTarihi.Date - baslangicTarihi.Date;
+                int kalanGunSayisi = gunFarki.Days;
+
+                phone.kalanGunSayisi = kalanGunSayisi;
+
+                SqliteDataAccess.UpdatePhone(phone);
+            }
             dataGridViewPhoneList.DataSource = phoneGridList;
+            ApplyCellStyles();
             labelKayitAdedi.Text = Convert.ToString(phoneGridList.Count);
         }
 
@@ -53,7 +96,7 @@ namespace mcell
                 else
                 {
                     int kullanimSuresi;
-                    int kullanimHakki;
+                    int kalanKullanimHakki;
 
                     if (string.IsNullOrEmpty(textBoxKullanimSuresi.Text))
                     {
@@ -65,15 +108,14 @@ namespace mcell
                     }
                     if (string.IsNullOrEmpty(textBoxKullanimHakki.Text))
                     {
-                        kullanimHakki = 10;
+                        kalanKullanimHakki = 10;
                     }
                     else
                     {
-                        kullanimHakki = Convert.ToInt32(textBoxKullanimHakki.Text);
+                        kalanKullanimHakki = Convert.ToInt32(textBoxKullanimHakki.Text);
                     }
 
-
-                    PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi, kullanimHakki, 0, textBoxNot.Text);
+                    PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi, kalanKullanimHakki, 0, textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
                     MessageBox.Show($"{p.imei} listeye eklendi!");
                     LoadPhoneGridList();
@@ -129,17 +171,29 @@ namespace mcell
             }
 
         }
-          
+
+
         private void dataGridViewPhoneList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-           /* DataGridView dataGridView = (DataGridView)sender;
-            DataGridViewCell selectedCell = dataGridView.CurrentCell;
-            int columnIndex = selectedCell.ColumnIndex;
-            string columnName = dataGridView.Columns[columnIndex].Name;
-            MessageBox.Show($" {columnName}");
+            DataGridView dataGridView = (DataGridView)sender;
+            DataGridViewRow selectedRow = dataGridView.Rows[e.RowIndex];
 
-            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
-            string newValue = row.Cells[e.ColumnIndex].Value.ToString();*/
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Geçerli hücrenin indeksi kontrol ediliyor
+            {
+                PhoneModel phone = new PhoneModel(
+                    Convert.ToInt64(selectedRow.Cells["id"].Value),
+                    Convert.ToInt64(selectedRow.Cells["imei"].Value),
+                    selectedRow.Cells["phoneModel"].Value.ToString(),
+                    Convert.ToDateTime(selectedRow.Cells["baslangicTarihi"].Value),
+                    Convert.ToDateTime(selectedRow.Cells["sonKullanimTarihi"].Value),
+                    Convert.ToInt64(selectedRow.Cells["kalanGunSayisi"].Value),
+                    Convert.ToInt64(selectedRow.Cells["kalanKullanimHakki"].Value),
+                    Convert.ToInt64(selectedRow.Cells["kullanilanHak"].Value),
+                    selectedRow.Cells["notlar"].Value.ToString());
+
+                SqliteDataAccess.UpdatePhone(phone);
+                LoadPhoneGridList();
+            }
         }
 
         private void dataGridViewPhoneList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -157,13 +211,17 @@ namespace mcell
             DialogResult result = MessageBox.Show("Veritabanını sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz!", "Sıfırlama Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                // Veritabanı sıfırlama işlemini gerçekleştirin
                 SqliteDataAccess.ResetDb();
 
                 MessageBox.Show("Veritabanı sıfırlama işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LoadPhoneGridList();
             }
+        }
+
+        private void PhoneForm_Load(object sender, EventArgs e)
+        {
+            ApplyCellStyles();
         }
     }
 }

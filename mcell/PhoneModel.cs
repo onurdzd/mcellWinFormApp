@@ -26,6 +26,13 @@ namespace mcell
             this.notlar = notlar;
         }
 
+        public PhoneModel(Int64 id, Int64 kalanKullanimHakki, Int64 kullanilanHak)
+        {
+            this.id = id;
+            this.kalanKullanimHakki = kalanKullanimHakki;
+            this.kullanilanHak = kullanilanHak;
+        }
+
 
         public PhoneModel(Int64 id, Int64 imei, string phoneModel, DateTime baslangicTarihi, DateTime sonKullanimTarihi, Int64 kalanGunSayisi, Int64 kalanKullanimHakki, Int64 kullanilanHak, string notlar)
         {

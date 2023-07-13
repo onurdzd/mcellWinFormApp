@@ -192,6 +192,7 @@
             // dataGridViewPhoneList
             // 
             this.dataGridViewPhoneList.AllowUserToOrderColumns = true;
+            this.dataGridViewPhoneList.BackgroundColor = System.Drawing.SystemColors.ControlDark;
             this.dataGridViewPhoneList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewPhoneList.Location = new System.Drawing.Point(27, 150);
             this.dataGridViewPhoneList.Name = "dataGridViewPhoneList";
@@ -248,7 +249,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1957, 352);
+            this.label9.Location = new System.Drawing.Point(1964, 352);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(163, 25);
             this.label9.TabIndex = 24;
@@ -258,6 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2465, 1177);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -285,6 +287,7 @@
             this.Name = "PhoneForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mcell Imei Takip";
+            this.Load += new System.EventHandler(this.PhoneForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhoneList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

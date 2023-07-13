@@ -12,15 +12,10 @@ namespace mcell
 {
     public class SqliteDataAccess
     {
-        public static List<PhoneModel> LoadPhones()
+        private static string LoadConnectionString(string id = "Default")
         {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
-            {
-                var output = cnn.Query<PhoneModel>("SELECT id,imei, phoneModel, notlar FROM allData", new DynamicParameters());
-        return output.ToList();
-            };
+            return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
-
         public static void SavePhone(PhoneModel phone)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
@@ -45,11 +40,6 @@ namespace mcell
             }
         }
 
-        private static string LoadConnectionString(string id="Default")
-        {
-            return ConfigurationManager.ConnectionStrings[id].ConnectionString;
-        }
-
         public static List<PhoneModel> LoadGridPhones()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
@@ -58,11 +48,26 @@ namespace mcell
                 return output.ToList();
             };
         }
-        public static void SavePhoneGrid(PhoneModel phone)
+
+
+        //UpdatePhone DÜZELTİCELECEK
+        public static void UpdatePhone(PhoneModel phone)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("insert into allData (id,imei,phoneModel,baslangicTarihi,sonKullanımTarihi,kalanGunSayisi,kalanKullanimHakki,kullanilanHak,notlar) values (@id,@imei,@phoneModel,@baslangicTarihi,@sonKullanımTarihi,@kalanGunSayisi,@kalanKullanimHakki,@kullanilanHak,@notlar)", phone);
+
+                string query = @"UPDATE allData 
+                         SET imei = @imei,
+                             phoneModel = @phoneModel,
+                             baslangicTarihi = @baslangicTarihi,
+                             sonKullanimTarihi = @sonKullanimTarihi,
+                             kalanGunSayisi = @kalanGunSayisi,
+                             kalanKullanimHakki = @kalanKullanimHakki,
+                             kullanilanHak = @kullanilanHak,
+                             notlar = @notlar
+                         WHERE id = @id";
+
+                cnn.Execute(query, phone);
             }
         }
     }
