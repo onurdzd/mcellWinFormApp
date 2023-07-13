@@ -149,7 +149,7 @@ namespace mcell
 
                     PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi,kullanimHakki, 0, kullanimHakki,  textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
-                    MessageBox.Show($"{p.imei} listeye eklendi!");
+                    MessageBox.Show($"{p.imei} imei nolu {p.phoneModel} listeye eklendi!");
                     LoadPhoneGridList();
                     textBoxImeiEkle.Text = "";
                     textBoxTelModelEkle.Text = "";
@@ -266,5 +266,6 @@ namespace mcell
             AdjustColumnHeaderWidth();
             ApplyCellStyles();
         }
+
     }
 }
