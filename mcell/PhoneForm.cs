@@ -25,6 +25,14 @@ namespace mcell
         {
             foreach (DataGridViewRow row in dataGridViewPhoneList.Rows)
             {
+                string targetColumn = "kullanilanHak"; // Güncellenecek hedef sütun adı
+
+                if (dataGridViewPhoneList.Columns.Contains(targetColumn))
+                {
+                    DataGridViewColumn column = dataGridViewPhoneList.Columns[targetColumn];
+                    DataGridViewCellStyle DefaultCellStyle = column.DefaultCellStyle;
+                    DefaultCellStyle.BackColor = Color.DarkGray; // Hedef sütunun arka plan rengini kırmızı olarak güncelle
+                }
                 // Sütun adlarını kullanarak hücre değerlerini alın
                 string kalanGunSayisiStr = row.Cells["kalanGunSayisi"].Value.ToString();
                 string kalanKullanimHakkiStr = row.Cells["kalanKullanimHakki"].Value.ToString();
@@ -35,19 +43,31 @@ namespace mcell
 
                 // Hücreleri renklendirme
                 DataGridViewCellStyle cellStyle = row.Cells["kalanGunSayisi"].Style;
-                if (kalanGunSayisi < 5)
-                {
-                    cellStyle.BackColor = Color.Red;
-                }
-                else if (kalanGunSayisi < 10)
+                if (kalanGunSayisi > 30 && kalanGunSayisi < 91)
                 {
                     cellStyle.BackColor = Color.Yellow;
                 }
+                else if (kalanGunSayisi < 31)
+                {
+                    cellStyle.BackColor = Color.Red;
+                }
+                else
+                {
+                    cellStyle.BackColor = Color.Green;
+                }
 
                 cellStyle = row.Cells["kalanKullanimHakki"].Style;
-                if (kalanKullanimHakki <= 0)
+                if (kalanKullanimHakki>2 && kalanKullanimHakki < 6)
                 {
-                    cellStyle.BackColor = Color.Gray;
+                    cellStyle.BackColor = Color.Yellow;
+                }
+                else if (kalanKullanimHakki < 3)
+                {
+                    cellStyle.BackColor = Color.Red;
+                }
+                else
+                {
+                    cellStyle.BackColor = Color.Green;
                 }
             }
         }
@@ -178,7 +198,7 @@ namespace mcell
             DataGridView dataGridView = (DataGridView)sender;
             DataGridViewRow selectedRow = dataGridView.Rows[e.RowIndex];
 
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Geçerli hücrenin indeksi kontrol ediliyor
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0) 
             {
                 PhoneModel phone = new PhoneModel(
                     Convert.ToInt64(selectedRow.Cells["id"].Value),
