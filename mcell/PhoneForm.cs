@@ -20,12 +20,20 @@ namespace mcell
             InitializeComponent();
             LoadPhoneGridList();
         }
+        private void AdjustColumnHeaderWidth()
+        {
+            foreach (DataGridViewColumn column in dataGridViewPhoneList.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells; // Sütun genişliğini hücre içeriğine göre ayarla
+                column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter; // Sütun başlığı hizalamasını merkeze al
+            }
+        }
 
         private void ApplyCellStyles()
         {
             foreach (DataGridViewRow row in dataGridViewPhoneList.Rows)
             {
-                string targetColumn = "kullanilanHak"; // Güncellenecek hedef sütun adı
+                string targetColumn = "kullanimHakki"; // Güncellenecek hedef sütun adı
 
                 if (dataGridViewPhoneList.Columns.Contains(targetColumn))
                 {
@@ -80,8 +88,12 @@ namespace mcell
                 DateTime sonKullanimTarihi = phone.sonKullanimTarihi;
                 TimeSpan gunFarki = sonKullanimTarihi.Date - baslangicTarihi.Date;
                 int kalanGunSayisi = gunFarki.Days;
-
                 phone.kalanGunSayisi = kalanGunSayisi;
+
+                int kullanimHakki = Convert.ToInt32(phone.kullanimHakki);
+                int kullanilanHak = Convert.ToInt32(phone.kullanilanHak);
+                int kalanKullanimHakki = kullanimHakki - kullanilanHak;
+                phone.kalanKullanimHakki = kalanKullanimHakki;
 
                 SqliteDataAccess.UpdatePhone(phone);
             }
@@ -116,7 +128,7 @@ namespace mcell
                 else
                 {
                     int kullanimSuresi;
-                    int kalanKullanimHakki;
+                    int kullanimHakki;
 
                     if (string.IsNullOrEmpty(textBoxKullanimSuresi.Text))
                     {
@@ -128,14 +140,14 @@ namespace mcell
                     }
                     if (string.IsNullOrEmpty(textBoxKullanimHakki.Text))
                     {
-                        kalanKullanimHakki = 10;
+                        kullanimHakki = 10;
                     }
                     else
                     {
-                        kalanKullanimHakki = Convert.ToInt32(textBoxKullanimHakki.Text);
+                        kullanimHakki = Convert.ToInt32(textBoxKullanimHakki.Text);
                     }
 
-                    PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi, kalanKullanimHakki, 0, textBoxNot.Text);
+                    PhoneModel p = new PhoneModel(0, Convert.ToInt64(textBoxImeiEkle.Text), textBoxTelModelEkle.Text,DateTime.Now.Date, DateTime.Now.Date.AddDays(kullanimSuresi), kullanimSuresi,kullanimHakki, 0, kullanimHakki,  textBoxNot.Text);
                     SqliteDataAccess.SavePhone(p);
                     MessageBox.Show($"{p.imei} listeye eklendi!");
                     LoadPhoneGridList();
@@ -198,22 +210,32 @@ namespace mcell
             DataGridView dataGridView = (DataGridView)sender;
             DataGridViewRow selectedRow = dataGridView.Rows[e.RowIndex];
 
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0) 
+            try
             {
-                PhoneModel phone = new PhoneModel(
-                    Convert.ToInt64(selectedRow.Cells["id"].Value),
-                    Convert.ToInt64(selectedRow.Cells["imei"].Value),
-                    selectedRow.Cells["phoneModel"].Value.ToString(),
-                    Convert.ToDateTime(selectedRow.Cells["baslangicTarihi"].Value),
-                    Convert.ToDateTime(selectedRow.Cells["sonKullanimTarihi"].Value),
-                    Convert.ToInt64(selectedRow.Cells["kalanGunSayisi"].Value),
-                    Convert.ToInt64(selectedRow.Cells["kalanKullanimHakki"].Value),
-                    Convert.ToInt64(selectedRow.Cells["kullanilanHak"].Value),
-                    selectedRow.Cells["notlar"].Value.ToString());
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                {
+                    PhoneModel phone = new PhoneModel(
+                        Convert.ToInt64(selectedRow.Cells["id"].Value),
+                        Convert.ToInt64(selectedRow.Cells["imei"].Value),
+                        selectedRow.Cells["phoneModel"].Value.ToString(),
+                        Convert.ToDateTime(selectedRow.Cells["baslangicTarihi"].Value),
+                        Convert.ToDateTime(selectedRow.Cells["sonKullanimTarihi"].Value),
+                        Convert.ToInt64(selectedRow.Cells["kalanGunSayisi"].Value),
+                        Convert.ToInt64(selectedRow.Cells["kullanimHakki"].Value),
+                        Convert.ToInt64(selectedRow.Cells["kullanilanHak"].Value),
+                        Convert.ToInt64(selectedRow.Cells["kalanKullanimHakki"].Value),
+                        selectedRow.Cells["notlar"].Value.ToString());
 
-                SqliteDataAccess.UpdatePhone(phone);
+                    SqliteDataAccess.UpdatePhone(phone);
+                    LoadPhoneGridList();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Imei listede bulunuyor!");
                 LoadPhoneGridList();
             }
+
         }
 
         private void dataGridViewPhoneList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -241,6 +263,7 @@ namespace mcell
 
         private void PhoneForm_Load(object sender, EventArgs e)
         {
+            AdjustColumnHeaderWidth();
             ApplyCellStyles();
         }
     }

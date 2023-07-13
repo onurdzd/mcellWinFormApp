@@ -16,11 +16,19 @@ namespace mcell
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
+        public static List<PhoneModel> LoadGridPhones()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<PhoneModel>("SELECT * FROM allData", new DynamicParameters());
+                return output.ToList();
+            };
+        }
         public static void SavePhone(PhoneModel phone)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("insert into allData (imei,phoneModel,baslangicTarihi,sonKullanimTarihi,kalanGunSayisi,kalanKullanimHakki,kullanilanHak,notlar) values (@imei,@phoneModel,@baslangicTarihi,@sonKullanimTarihi,@kalanGunSayisi,@kalanKullanimHakki,@kullanilanHak,@notlar)", phone);
+                cnn.Execute("insert into allData (imei,phoneModel,baslangicTarihi,sonKullanimTarihi,kalanGunSayisi,kullanimHakki,kullanilanHak,kalanKullanimHakki,notlar) values (@imei,@phoneModel,@baslangicTarihi,@sonKullanimTarihi,@kalanGunSayisi,@kullanimHakki,@kullanilanHak,@kalanKullanimHakki,@notlar)", phone);
             }
         }
 
@@ -40,17 +48,6 @@ namespace mcell
             }
         }
 
-        public static List<PhoneModel> LoadGridPhones()
-        {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
-            {
-                var output = cnn.Query<PhoneModel>("SELECT * FROM allData", new DynamicParameters());
-                return output.ToList();
-            };
-        }
-
-
-        //UpdatePhone DÜZELTİCELECEK
         public static void UpdatePhone(PhoneModel phone)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
@@ -62,8 +59,9 @@ namespace mcell
                              baslangicTarihi = @baslangicTarihi,
                              sonKullanimTarihi = @sonKullanimTarihi,
                              kalanGunSayisi = @kalanGunSayisi,
-                             kalanKullanimHakki = @kalanKullanimHakki,
+                             kullanimHakki=@kullanimHakki,
                              kullanilanHak = @kullanilanHak,
+                             kalanKullanimHakki = @kalanKullanimHakki,
                              notlar = @notlar
                          WHERE id = @id";
 
